@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Feasibility Summary</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for Inter font and general body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        /* Ensure the main container is centered and has a max width */
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+        /* Styling for input fields and results display */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <div class="container bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <!-- Company Logo -->
+        <div class="flex justify-center mb-6">
+            <img id="companyLogo" src="https://res.cloudinary.com/divhreh2z/image/upload/v1751428575/BMA_Logo_Final_General_zbzhtf.png" alt="BidMyAsset Logo" class="rounded-lg shadow-md w-36 h-auto">
+        </div>
+
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">Project Feasibility Summary</h1>
+        <p class="text-gray-600 mb-8 text-center">Fill in the project details below for feasibility assessment.</p>
+
+        <form id="feasibilityForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Staff Name Input -->
+            <div class="col-span-full">
+                <label for="staffName" class="block text-sm font-medium text-gray-700 mb-1">Staff Name (ชื่อพนักงาน)</label>
+                <input type="text" id="staffName" name="staffName" placeholder="e.g., John Doe"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
+            </div>
+
+            <!-- Project Name Input -->
+            <div class="col-span-1">
+                <label for="projectName" class="block text-sm font-medium text-gray-700 mb-1">Project Name (ชื่อโครงการ)</label>
+                <input type="text" id="projectName" name="projectName" placeholder="e.g., Office Clearance Phase 1"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
+            </div>
+
+            <!-- Project Code Input -->
+            <div class="col-span-1">
+                <label for="projectCode" class="block text-sm font-medium text-gray-700 mb-1">Project Code (รหัสโครงการ)</label>
+                <input type="text" id="projectCode" name="projectCode" placeholder="e.g., ACME-2023-001"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
+            </div>
+
+            <!-- Project Start Date Input -->
+            <div class="col-span-1">
+                <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Project Start Date (วันที่เริ่มโครงการ)</label>
+                <input type="date" id="startDate" name="startDate"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
+            </div>
+
+            <!-- Project End Date Input -->
+            <div class="col-span-1">
+                <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Project End Date (วันที่สิ้นสุดโครงการ)</label>
+                <input type="date" id="endDate" name="endDate"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
+            </div>
+
+            <!-- VAT Inclusive Checkbox -->
+            <div class="col-span-full flex items-center mb-4">
+                <input type="checkbox" id="vatInclusive" name="vatInclusive" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" checked>
+                <label for="vatInclusive" class="ml-2 block text-sm font-medium text-gray-700">Project Revenue/Cost are VAT Inclusive (7%) (รายรับ/ค่าใช้จ่ายรวมภาษีมูลค่าเพิ่ม 7%)</label>
+            </div>
+
+            <!-- Project Revenue Input -->
+            <div class="col-span-1">
+                <label for="projectRevenue" class="block text-sm font-medium text-gray-700 mb-1" id="labelProjectRevenue">Project Revenue (THB, Inc. VAT) (รายรับโครงการ (บาท, รวมภาษีมูลค่าเพิ่ม))</label>
+                <input type="text" id="projectRevenue" name="projectRevenue" placeholder="e.g., 1,000,000"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+                       value="0">
+            </div>
+
+            <!-- Project Cost Input -->
+            <div class="col-span-1">
+                <label for="projectCost" class="block text-sm font-medium text-gray-700 mb-1" id="labelProjectCost">Project Cost (THB, Inc. VAT) (ค่าใช้จ่ายโครงการ (บาท, รวมภาษีมูลค่าเพิ่ม))</label>
+                <input type="text" id="projectCost" name="projectCost" placeholder="e.g., 800,000"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+                       value="0">
+            </div>
+
+            <!-- Man Hours Input -->
+            <div class="col-span-1">
+                <label for="manHours" class="block text-sm font-medium text-gray-700 mb-1">Man Hours (ชั่วโมงทำงาน)</label>
+                <input type="text" id="manHours" name="manHours" placeholder="e.g., 40"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+                       value="0">
+            </div>
+
+            <!-- Vehicle Distance Input -->
+            <div class="col-span-1">
+                <label for="vehicleDistance" class="block text-sm font-medium text-gray-700 mb-1">Vehicle Distance (KM) (ระยะทางรถยนต์ (กม.))</label>
+                <input type="text" id="vehicleDistance" name="vehicleDistance" placeholder="e.g., 150"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+                       value="0">
+            </div>
+
+            <!-- Miscellaneous Expenses Input -->
+            <div class="col-span-1">
+                <label for="miscExpenses" class="block text-sm font-medium text-gray-700 mb-1">Miscellaneous Expenses (THB) (ค่าใช้จ่ายเบ็ดเตล็ด (บาท))</label>
+                <input type="text" id="miscExpenses" name="miscExpenses" placeholder="e.g., 500"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+                       value="0">
+            </div>
+
+            <!-- Daily Overhead Rate Input -->
+            <div class="col-span-1">
+                <label for="dailyOverheadRate" class="block text-sm font-medium text-gray-700 mb-1">Daily Overhead Rate (THB, per weekday) (ค่าใช้จ่ายดำเนินการต่อวัน (บาท, ต่อวันทำการ))</label>
+                <input type="text" id="dailyOverheadRate" name="dailyOverheadRate" placeholder="e.g., 500"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+                       value="500">
+            </div>
+
+            <!-- Project Duration (Days) Output -->
+            <div class="col-span-1">
+                <label for="projectDurationDays" class="block text-sm font-medium text-gray-700 mb-1">Project Duration (Weekdays) (ระยะเวลาโครงการ (วันทำการ))</label>
+                <input type="text" id="projectDurationDays" name="projectDurationDays"
+                       class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-600 cursor-not-allowed"
+                       readonly value="0 days">
+            </div>
+
+            <!-- Misc Expenses Note -->
+            <div class="col-span-full">
+                <label for="miscExpensesNote" class="block text-sm font-medium text-gray-700 mb-1">Notes for Miscellaneous Expenses (บันทึกสำหรับค่าใช้จ่ายเบ็ดเตล็ด)</label>
+                <textarea id="miscExpensesNote" name="miscExpensesNote" rows="4" placeholder="e.g., Courier fees, small tool rentals, unexpected repairs."
+                          class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"></textarea>
+            </div>
+        </form>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="mt-10 p-6 bg-purple-50 rounded-xl shadow-inner border border-purple-200">
+            <h2 class="text-2xl font-bold text-purple-800 mb-4 text-center">Financial Summary</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Net Project Revenue:</span>
+                    <span id="netProjectRevenue" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Net Project Cost:</span>
+                    <span id="netProjectCost" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Man Hour Cost:</span>
+                    <span id="manHourCost" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Vehicle Usage Cost:</span>
+                    <span id="vehicleUsageCost" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Miscellaneous Expenses:</span>
+                    <span id="miscExpenses" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Total Overhead Cost:</span>
+                    <span id="totalOverheadCost" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Total Main Expenses (Operational):</span>
+                    <span id="totalMainExpenses" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-purple-100">
+                    <span class="font-medium">Total Expenses (Operational + Project Cost + Overhead):</span>
+                    <span id="totalAllExpenses" class="font-semibold text-purple-700">THB 0.00</span>
+                </div>
+                <div class="col-span-full flex justify-between items-center py-2 pt-4">
+                    <span class="text-lg font-bold text-purple-900">Net Profit/Loss:</span>
+                    <span id="netProfitLoss" class="text-2xl font-extrabold text-green-600">THB 0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export to PDF Button -->
+        <div class="mt-8 text-center">
+            <button id="exportPdfBtn"
+                    class="w-full md:w-auto bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:from-green-600 hover:to-teal-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75">
+                Export Summary to PDF 📄
+            </button>
+            <div id="exportLoadingIndicator" class="hidden mt-2 text-center text-gray-600 text-sm">
+                Generating PDF...
+            </div>
+        </div>
+    </div>
+
+    <!-- jsPDF and html2canvas Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // VAT rate constant
+        const VAT_RATE = 0.07; // 7% VAT
+
+        // Get references to all input fields
+        const staffNameInput = document.getElementById('staffName');
+        const projectNameInput = document.getElementById('projectName');
+        const projectCodeInput = document.getElementById('projectCode');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const vatInclusiveCheckbox = document.getElementById('vatInclusive');
+        const projectRevenueInput = document.getElementById('projectRevenue');
+        const projectCostInput = document.getElementById('projectCost');
+        const manHoursInput = document.getElementById('manHours');
+        const vehicleDistanceInput = document.getElementById('vehicleDistance');
+        const miscExpensesInput = document.getElementById('miscExpenses');
+        const dailyOverheadRateInput = document.getElementById('dailyOverheadRate');
+        const projectDurationDaysInput = document.getElementById('projectDurationDays');
+        const miscExpensesNoteInput = document.getElementById('miscExpensesNote');
+
+        // Get references to labels for dynamic text
+        const labelProjectRevenue = document.getElementById('labelProjectRevenue');
+        const labelProjectCost = document.getElementById('labelProjectCost');
+
+        // Get references to all output display elements
+        const netProjectRevenueSpan = document.getElementById('netProjectRevenue');
+        const netProjectCostSpan = document.getElementById('netProjectCost');
+        const manHourCostSpan = document.getElementById('manHourCost');
+        const vehicleUsageCostSpan = document.getElementById('vehicleUsageCost');
+        const totalMainExpensesSpan = document.getElementById('totalMainExpenses');
+        const totalOverheadCostSpan = document.getElementById('totalOverheadCost');
+        const totalAllExpensesSpan = document.getElementById('totalAllExpenses');
+        const netProfitLossSpan = document.getElementById('netProfitLoss');
+
+        // Get references for the export feature
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const exportLoadingIndicator = document.getElementById('exportLoadingIndicator');
+        const companyLogo = document.getElementById('companyLogo');
+
+        // Array of numerical input elements for easier iteration
+        const numericalInputs = [
+            projectRevenueInput,
+            projectCostInput,
+            manHoursInput,
+            vehicleDistanceInput,
+            miscExpensesInput,
+            dailyOverheadRateInput
+        ];
+
+        /**
+         * Updates the labels for Project Revenue and Project Cost based on VAT Inclusive checkbox.
+         */
+        function updateVatLabels() {
+            if (vatInclusiveCheckbox.checked) {
+                labelProjectRevenue.textContent = 'Project Revenue (THB, Inc. VAT) (รายรับโครงการ (บาท, รวมภาษีมูลค่าเพิ่ม))';
+                labelProjectCost.textContent = 'Project Cost (THB, Inc. VAT) (ค่าใช้จ่ายโครงการ (บาท, รวมภาษีมูลค่าเพิ่ม))';
+            } else {
+                labelProjectRevenue.textContent = 'Project Revenue (THB, Excl. VAT) (รายรับโครงการ (บาท, ไม่รวมภาษีมูลค่าเพิ่ม))';
+                labelProjectCost.textContent = 'Project Cost (THB, Excl. VAT) (ค่าใช้จ่ายโครงการ (บาท, ไม่รวมภาษีมูลค่าเพิ่ม))';
+            }
+        }
+
+        /**
+         * Formats a number as a Thai Baht currency string with thousands separators and two decimal places.
+         * This is used for the *display* of calculated results.
+         * @param {number} amount The number to format.
+         * @returns {string} The formatted currency string.
+         */
+        function formatCurrency(amount) {
+            return `THB ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        /**
+         * Formats a number with thousands separators and no decimal places.
+         * Used for displaying raw hours/miles.
+         * @param {number} amount The number to format.
+         * @returns {string} The formatted number string.
+         */
+        function formatNumber(amount) {
+            return amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+
+        /**
+         * Event handler for 'blur' event on numerical input fields.
+         * Formats the input value with commas and no decimals.
+         * @param {Event} event The blur event.
+         */
+        function handleInputBlur(event) {
+            const input = event.target;
+            const value = parseFloat(input.value.replace(/,/g, '')) || 0;
+            input.value = value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            calculateFeasibility();
+        }
+
+        /**
+         * Event handler for 'focus' event on numerical input fields.
+         * Removes commas from the input value for easier editing.
+         * @param {Event} Event The focus event.
+         */
+        function handleInputFocus(event) {
+            const input = event.target;
+            input.value = input.value.replace(/,/g, '');
+        }
+
+        /**
+         * Event handler for 'input' event on numerical input fields.
+         * Updates calculations as user types.
+         * @param {Event} event The input event.
+         */
+        function handleInput(event) {
+            calculateFeasibility();
+        }
+
+        /**
+         * Calculates the number of weekdays (Monday-Friday) between two dates.
+         * @param {string} startDateString - The start date inYYYY-MM-DD format.
+         * @param {string} endDateString - The end date inYYYY-MM-DD format.
+         * @returns {number} The number of weekdays, inclusive of start and end dates.
+         */
+        function getWeekdaysBetweenDates(startDateString, endDateString) {
+            if (!startDateString || !endDateString) {
+                return 0;
+            }
+
+            const startDate = new Date(startDateString);
+            const endDate = new Date(endDateString);
+
+            if (startDate > endDate) {
+                return 0;
+            }
+
+            let weekdays = 0;
+            let currentDate = new Date(startDate);
+
+            while (currentDate <= endDate) {
+                const day = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+                if (day !== 0 && day !== 6) { // If not Sunday (0) or Saturday (6)
+                    weekdays++;
+                }
+                currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+            }
+            return weekdays;
+        }
+
+        /**
+         * Calculates all feasibility-related values based on current input.
+         */
+        function calculateFeasibility() {
+            // Retrieve values from input fields, defaulting to 0 if empty or invalid
+            const projectRevenueGross = parseFloat(projectRevenueInput.value.replace(/,/g, '')) || 0;
+            const projectCostGross = parseFloat(projectCostInput.value.replace(/,/g, '')) || 0;
+            const manHours = parseFloat(manHoursInput.value.replace(/,/g, '')) || 0;
+            const vehicleDistance = parseFloat(vehicleDistanceInput.value.replace(/,/g, '')) || 0;
+            const miscExpenses = parseFloat(miscExpensesInput.value.replace(/,/g, '')) || 0;
+            const dailyOverheadRate = parseFloat(dailyOverheadRateInput.value.replace(/,/g, '')) || 0;
+
+            let netProjectRevenue;
+            let netProjectCost;
+
+            // Conditionally calculate Net Project Revenue and Cost based on VAT Inclusive checkbox
+            if (vatInclusiveCheckbox.checked) {
+                netProjectRevenue = projectRevenueGross / (1 + VAT_RATE);
+                netProjectCost = projectCostGross / (1 + VAT_RATE);
+            } else {
+                netProjectRevenue = projectRevenueGross;
+                netProjectCost = projectCostGross;
+            }
+
+            // Calculate Project Duration in Weekdays
+            const projectDurationDays = getWeekdaysBetweenDates(startDateInput.value, endDateInput.value);
+            projectDurationDaysInput.value = `${formatNumber(projectDurationDays)} days`;
+
+            // Calculate Total Overhead Cost
+            const totalOverheadCost = dailyOverheadRate * projectDurationDays;
+
+            // 1. Calculate Man Hour Cost
+            const manHourCost = manHours * 200;
+
+            // 2. Calculate Vehicle Usage Cost
+            const vehicleBaseCost = vehicleDistance * 6;
+            const vehicleHundredKmFee = Math.floor(vehicleDistance / 100) * 200;
+            const vehicleUsageCost = vehicleBaseCost + vehicleHundredKmFee;
+
+            // 3. Calculate Total Main Expenses (Operational - these are assumed to be net of VAT if they are internal costs)
+            const totalMainExpenses = manHourCost + vehicleUsageCost + miscExpenses;
+
+            // 4. Calculate Total All Expenses (Operational + Net Project Cost + Total Overhead Cost)
+            const totalAllExpenses = totalMainExpenses + netProjectCost + totalOverheadCost;
+
+            // 5. Calculate Net Profit/Loss
+            const netProfitLoss = netProjectRevenue - totalAllExpenses;
+
+            // Update the display elements with the calculated values
+            netProjectRevenueSpan.textContent = formatCurrency(netProjectRevenue);
+            netProjectCostSpan.textContent = formatCurrency(netProjectCost);
+            manHourCostSpan.textContent = formatCurrency(manHourCost);
+            vehicleUsageCostSpan.textContent = formatCurrency(vehicleUsageCost);
+            totalMainExpensesSpan.textContent = formatCurrency(totalMainExpenses);
+            totalOverheadCostSpan.textContent = formatCurrency(totalOverheadCost);
+            totalAllExpensesSpan.textContent = formatCurrency(totalAllExpenses);
+
+            // Dynamically color Net Profit/Loss
+            netProfitLossSpan.textContent = formatCurrency(netProfitLoss);
+            if (netProfitLoss >= 0) {
+                netProfitLossSpan.classList.remove('text-red-600');
+                netProfitLossSpan.classList.add('text-green-600');
+            } else {
+                netProfitLossSpan.classList.remove('text-green-600');
+                netProfitLossSpan.classList.add('text-red-600');
+            }
+        }
+
+        /**
+         * Converts an image URL to a Base64 Data URL.
+         * Useful for embedding images directly into PDF.
+         * @param {string} url The URL of the image.
+         * @returns {Promise<string>} A promise that resolves with the Base64 data URL.
+         */
+        async function getImageDataUrl(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas.toDataURL('image/png'));
+                };
+                img.onerror = (error) => {
+                    console.error("Error loading image:", error);
+                    resolve('https://placehold.co/150x50/CCCCCC/000000?text=Logo+Error');
+                };
+                img.src = url;
+            });
+        }
+
+        /**
+         * Exports the content of the summary to a PDF.
+         */
+        async function exportToPdf() {
+            exportPdfBtn.disabled = true;
+            exportLoadingIndicator.classList.remove('hidden');
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            let yOffset = 15;
+
+            // PDF page dimensions
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const marginX = 20; // Left/Right margin
+            const contentWidth = pageWidth - (2 * marginX);
+
+            // 1. Add Company Logo
+            const logoUrl = companyLogo.src;
+            const logoDataUrl = await getImageDataUrl(logoUrl);
+            const logoWidth = 40;
+            const logoHeight = (companyLogo.naturalHeight / companyLogo.naturalWidth) * logoWidth;
+            const logoX = (pageWidth - logoWidth) / 2; // Center the logo
+
+            pdf.addImage(logoDataUrl, 'PNG', logoX, yOffset, logoWidth, logoHeight);
+            yOffset += logoHeight + 10;
+
+            // 2. Add Main Title
+            pdf.setFontSize(18);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Project Feasibility Summary', pageWidth / 2, yOffset, { align: 'center' });
+            yOffset += 15; // Increased space after main title
+
+            // 3. Add Project Header Details (Structured)
+            pdf.setFontSize(12);
+            pdf.setFont('helvetica', 'normal');
+
+            // Safely get trimmed values, defaulting to empty string if null/undefined
+            const staffName = (staffNameInput.value || '').trim();
+            const projectName = (projectNameInput.value || '').trim();
+            const projectCode = (projectCodeInput.value || '').trim();
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            const projectDurationDays = projectDurationDaysInput.value;
+
+            const headerDetails = [
+                { label: 'Staff Name:', value: staffName },
+                { label: 'Project Name:', value: projectName },
+                { label: 'Project Code:', value: projectCode },
+                { label: 'Start Date:', value: startDate },
+                { label: 'End Date:', value: endDate },
+                { label: 'Project Duration:', value: projectDurationDays }
+            ];
+
+            const headerLabelX = marginX;
+            const headerValueX = pageWidth - marginX; // Right align values to the right margin
+            const headerLineHeight = 7;
+
+            headerDetails.forEach(item => {
+                if (item.value) { // Only print if value exists
+                    pdf.text(item.label, headerLabelX, yOffset);
+                    pdf.text(item.value, headerValueX, yOffset, { align: 'right' });
+                    yOffset += headerLineHeight;
+                }
+            });
+            yOffset += 10; // Space after header details
+
+            // Determine label for Project Revenue/Cost based on checkbox state
+            const vatLabelSuffix = vatInclusiveCheckbox.checked ? ' (Inc. VAT)' : ' (Excl. VAT)';
+
+
+            // 4. Add Financial Summary (Formatted Table-like)
+            pdf.setFontSize(14);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Financial Details:', marginX, yOffset);
+            yOffset += 10;
+
+            pdf.setFontSize(12);
+            pdf.setFont('helvetica', 'normal');
+
+            // Get raw input values for hours and distance
+            const manHours = parseFloat(manHoursInput.value.replace(/,/g, '')) || 0;
+            const vehicleDistance = parseFloat(vehicleDistanceInput.value.replace(/,/g, '')) || 0;
+            const dailyOverheadRate = parseFloat(dailyOverheadRateInput.value.replace(/,/g, '')) || 0;
+
+            const summaryData = [
+                { label: `Project Revenue${vatLabelSuffix}:`, value: projectRevenueInput.value ? formatCurrency(parseFloat(projectRevenueInput.value.replace(/,/g, ''))) : 'THB 0.00' },
+                { label: 'Net Project Revenue (Excl. VAT):', value: netProjectRevenueSpan.textContent, isHighlight: true },
+                { label: `Project Cost${vatLabelSuffix}:`, value: projectCostInput.value ? formatCurrency(parseFloat(projectCostInput.value.replace(/,/g, ''))) : 'THB 0.00' },
+                { label: 'Net Project Cost (Excl. VAT):', value: netProjectCostSpan.textContent, isHighlight: true },
+                { label: `Man Hour Cost (${formatNumber(manHours)} hours):`, value: manHourCostSpan.textContent },
+                { label: `Vehicle Usage Cost (${formatNumber(vehicleDistance)} km):`, value: vehicleUsageCostSpan.textContent },
+                { label: 'Miscellaneous Expenses:', value: miscExpensesInput.value ? formatCurrency(parseFloat(miscExpensesInput.value.replace(/,/g, ''))) : 'THB 0.00' },
+                { label: `Daily Overhead Rate (${projectDurationDaysInput.value} total):`, value: formatCurrency(dailyOverheadRate) + ' /day' },
+                { label: 'Total Overhead Cost:', value: totalOverheadCostSpan.textContent },
+                // Add a line before the totals
+                { type: 'line' },
+                { label: 'Total Main Expenses (Operational):', value: totalMainExpensesSpan.textContent },
+                { label: ['Total Expenses (Operational +', 'Net Project Cost + Overhead):'], value: totalAllExpensesSpan.textContent }, // Label split into two lines
+                // Add a line before Net Profit/Loss
+                { type: 'line' },
+                { label: 'Net Profit/Loss:', value: netProfitLossSpan.textContent, isHighlight: true, isProfit: (parseFloat(netProfitLossSpan.textContent.replace('THB ', '').replace(/,/g, '')) >= 0) }
+            ];
+
+            const financialLabelX = marginX;
+            const financialValueX = pageWidth - marginX; // Right align values to the right margin
+            const financialLineHeight = 8;
+            const financialLineWidth = contentWidth; // Line width is content width
+
+            summaryData.forEach(item => {
+                if (item.type === 'line') {
+                    yOffset += financialLineHeight / 2;
+                    pdf.line(financialLabelX, yOffset, financialLabelX + financialLineWidth, yOffset);
+                    yOffset += financialLineHeight / 2;
+                } else {
+                    // Handle multi-line labels
+                    if (Array.isArray(item.label)) {
+                        item.label.forEach((line, index) => {
+                            pdf.text(line, financialLabelX, yOffset + (index * (financialLineHeight - 2)));
+                        });
+                        yOffset += (item.label.length - 1) * (financialLineHeight - 2); // Adjust yOffset for extra lines
+                    } else {
+                        pdf.text(item.label, financialLabelX, yOffset);
+                    }
+
+                    if (item.isHighlight) {
+                        pdf.setFont('helvetica', 'bold');
+                        if (item.label === 'Net Profit/Loss:') {
+                            if (item.isProfit) {
+                                pdf.setTextColor(0, 128, 0);
+                            } else {
+                                pdf.setTextColor(255, 0, 0);
+                            }
+                        } else {
+                             pdf.setTextColor(0, 0, 0); // Default color for other highlighted items
+                        }
+                    }
+                    pdf.text(item.value, financialValueX, yOffset, { align: 'right' });
+                    if (item.isHighlight) {
+                        pdf.setFont('helvetica', 'normal');
+                        pdf.setTextColor(0, 0, 0);
+                    }
+                    yOffset += financialLineHeight;
+                }
+            });
+
+            // 5. Add Misc Expenses Note
+            const miscNotes = miscExpensesNoteInput.value.trim();
+            if (miscNotes) {
+                yOffset += 15;
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('Notes for Miscellaneous Expenses:', marginX, yOffset);
+                yOffset += 8;
+                pdf.setFontSize(10);
+                pdf.setFont('helvetica', 'normal');
+                const splitText = pdf.splitTextToSize(miscNotes, contentWidth); // Use contentWidth for splitting
+                pdf.text(splitText, marginX, yOffset);
+                yOffset += (splitText.length * 6);
+            }
+
+
+            // 6. Add Date and Time of Document Generation at the bottom
+            const generationDateTime = new Date().toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            pdf.setFontSize(8);
+            pdf.setFont('helvetica', 'italic');
+            const bottomMargin = 10;
+            const footerY = Math.max(yOffset + 10, pageHeight - bottomMargin); // Ensure footer is always at the bottom
+            pdf.text(`Document Generated: ${generationDateTime}`, pageWidth / 2, footerY, { align: 'center' });
+
+            // Save the PDF
+            const filename = `Project_Feasibility_Summary_${projectName.replace(/\s/g, '_')}${projectCode ? `_${projectCode}` : ''}.pdf`;
+            pdf.save(filename);
+
+            exportPdfBtn.disabled = false;
+            exportLoadingIndicator.classList.add('hidden');
+        }
+
+        // Add event listeners for numerical inputs (focus/blur for formatting, input for calculation)
+        numericalInputs.forEach(input => {
+            input.addEventListener('focus', handleInputFocus);
+            input.addEventListener('blur', handleInputBlur);
+            input.addEventListener('input', handleInput);
+            // Initial formatting on load (no decimals)
+            const initialValue = parseFloat(input.value.replace(/,/g, '')) || 0;
+            input.value = initialValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        });
+
+        // Add event listeners for date inputs to trigger recalculation
+        startDateInput.addEventListener('change', calculateFeasibility);
+        endDateInput.addEventListener('change', calculateFeasibility);
+
+        // Add event listener for the VAT Inclusive checkbox
+        vatInclusiveCheckbox.addEventListener('change', () => {
+            updateVatLabels();
+            calculateFeasibility();
+        });
+
+        // Add event listener for the export PDF button
+        exportPdfBtn.addEventListener('click', exportToPdf);
+
+        // Perform initial calculation and label update when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            updateVatLabels();
+            calculateFeasibility();
+        });
+    </script>
+</body>
+</html>
